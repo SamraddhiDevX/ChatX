@@ -1,5 +1,5 @@
-import cloudinary from "../lib/cloudnary";
-import generateToken from "../lib/utils";
+import cloudinary from "../lib/cloudnary.js";
+import generateToken from "../lib/utils.js";
 import User from "../models/usermodel";
 import bcrypt from 'bcryptjs';
 
