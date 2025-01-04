@@ -35,7 +35,7 @@ app.use('/api/message', messageRoutes);
 const PORT = process.env.PORT || 5000;  // Add fallback port
 
 // Resolve the frontend dist folder relative to the current file's location
-const frontendDistPath = path.resolve(__dirname, '../frontend/dist');
+const frontendDistPath = path.resolve(__dirname, '../../frontend/dist');
 console.log('Frontend dist path:', frontendDistPath);  // Ensure this path is correct
 
 // Serve static files from the dist folder
