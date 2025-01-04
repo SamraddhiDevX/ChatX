@@ -1,6 +1,6 @@
-const { Server } = require("socket.io");
-const http = require("http");
-const express = require("express");
+import { Server } from "socket.io";
+import http from "http";
+import express from "express";
 
 const app = express();
 const server = http.createServer(app);
@@ -11,14 +11,11 @@ const io = new Server(server, {
   },
 });
 
-
-
+const userSocketMap = {}; // Mapping of user IDs to socket IDs
 
 function getReceiverSocketId(userId) {
   return userSocketMap[userId];
 }
-
-const userSocketMap = {}; 
 
 io.on("connection", (socket) => {
   console.log("A user connected", socket.id);
@@ -26,7 +23,7 @@ io.on("connection", (socket) => {
   const userId = socket.handshake.query.userId;
   if (userId) userSocketMap[userId] = socket.id;
 
-  // io.emit() is used to send events to all the connected clients
+  // Emit the list of online users to all connected clients
   io.emit("getOnlineUsers", Object.keys(userSocketMap));
 
   socket.on("disconnect", () => {
@@ -36,9 +33,4 @@ io.on("connection", (socket) => {
   });
 });
 
-module.exports = {
-  io,
-  app,
-  server,
-  getReceiverSocketId
-};
+export { io, app, server, getReceiverSocketId };

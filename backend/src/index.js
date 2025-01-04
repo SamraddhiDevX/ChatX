@@ -1,30 +1,37 @@
-const express = require('express');
-const authRoutes = require('./routes/auth');
-const messageRoutes = require('./routes/messageAuth');
-const dotenv = require('dotenv');
-const connectDB = require('./lib/db');
-const cors = require('cors');
-const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
-const { app, server } = require("./lib/socket.js");
-const path = require("path");
+import express from 'express';
+import authRoutes from './routes/auth.js';
+import messageRoutes from './routes/messageAuth.js';
+import dotenv from 'dotenv';
+import connectDB from './lib/db.js';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
+import bodyParser from 'body-parser';
+import { app, server } from "./lib/socket.js";
+import path from 'path';
+import { fileURLToPath } from 'url';
 
+// Load environment variables
 dotenv.config();
 
-const __dirname = path.resolve();
+// Workaround for __dirname in ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
+// Middleware setup
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
   origin: process.env.FRONTEND_URL,
   credentials: true,
 }));
-app.use(bodyParser.json({ limit: '500mb' }));  // Increase the limit (e.g., to 50MB)
+app.use(bodyParser.json({ limit: '500mb' })); // Increase the limit
 app.use(bodyParser.urlencoded({ limit: '500mb', extended: true }));
 
+// Route handlers
 app.use('/api/auth', authRoutes);
 app.use('/api/message', messageRoutes);
 
+// Serve frontend in production mode
 const PORT = process.env.PORT;
 
 if (process.env.NODE_ENV === "production") {
@@ -35,6 +42,7 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
+// Start server
 server.listen(PORT, () => {
   console.log('server is running');
   connectDB();
