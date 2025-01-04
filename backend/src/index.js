@@ -32,17 +32,19 @@ app.use('/api/auth', authRoutes);
 app.use('/api/message', messageRoutes);
 
 // Serve frontend in production mode
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 5000;  // Add fallback port
 
+// Resolve the frontend dist folder relative to the current file's location
+const frontendDistPath = path.resolve(__dirname, '../frontend/dist');
+console.log('Frontend dist path:', frontendDistPath);  // Ensure this path is correct
 
-const frontendDistPath = "D:/MyProjects/chatx/frontend/dist";
-console.log(frontendDistPath)
+// Serve static files from the dist folder
 app.use(express.static(frontendDistPath));
 
+// Serve the index.html for all other routes
 app.get('*', (req, res) => {
   res.sendFile(path.join(frontendDistPath, 'index.html'));
 });
-
 
 // Start server
 server.listen(PORT, () => {
