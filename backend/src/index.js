@@ -34,13 +34,15 @@ app.use('/api/message', messageRoutes);
 // Serve frontend in production mode
 const PORT = process.env.PORT;
 
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"));
-  });
-}
+const frontendDistPath = "D:/MyProjects/chatx/frontend/dist";
+console.log(frontendDistPath)
+app.use(express.static(frontendDistPath));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(frontendDistPath, 'index.html'));
+});
+
 
 // Start server
 server.listen(PORT, () => {
