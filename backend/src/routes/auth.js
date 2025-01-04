@@ -1,6 +1,6 @@
 import express from 'express';
 import protectRoute from '../middleware/protectRoute.js';
-import { signup, login, logout, updateProfile, checkAuth } from '../controllers/authcontroller.js'; // Adjust the path to your file structure
+import { signup, login, logout, checkAuth } from '../controllers/authcontroller.js'; // Adjust the path to your file structure
 
 const router = express.Router();
 
